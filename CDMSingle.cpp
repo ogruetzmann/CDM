@@ -6915,8 +6915,10 @@ string CDM::getCorrectTTOT_Windowed(string TTOTInitial, bool hasManualCtot, cons
                 if (interval <= 0) continue;
                 int ttotFinalInt = stoi(TTOTFinal);
                 int listTTOTInt = stoi(listTTOT);
-                int requiredTTOT = stoi(calculateTime(listTTOT, interval));
-                if (ttotFinalInt < requiredTTOT) {
+                int requiredTTOTAfter = stoi(calculateTime(listTTOT, interval));
+                int minAllowedTTOT = stoi(calculateLessTime(listTTOT, interval));
+                // Check if in conflict zone: between (listTTOT - interval) and (listTTOT + interval)
+                if (ttotFinalInt > minAllowedTTOT && ttotFinalInt < requiredTTOTAfter) {
                     found = false;
                     TTOTFinal = calculateTime(listTTOT, interval);
                     correctTTOT = false;
